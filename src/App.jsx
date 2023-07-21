@@ -5,6 +5,7 @@ import ProductPage from './pages/ProductPage';
 import PricingPage from './pages/PricingPage';
 import HomePage from './pages/HomePage';
 import NotFoundPage from './pages/NotFoundPage';
+import AppLayout from './pages/AppLayout';
 
 const App = () => {
   return (
@@ -13,6 +14,7 @@ const App = () => {
         <Route path="/" element={<HomePage />} />
         <Route path="product" element={<ProductPage />} />
         <Route path="pricing" element={<PricingPage />} />
+        <Route path="app" element={<AppLayout />} />
         <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </BrowserRouter>
