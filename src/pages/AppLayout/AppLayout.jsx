@@ -1,6 +1,6 @@
 import React from 'react';
 
-import AppNav from '../components/AppNav/AppNav';
+import AppNav from '../../components/AppNav/AppNav';
 
 const AppLayout = () => {
   return (

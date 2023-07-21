@@ -1,21 +1,23 @@
 import React from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
-import ProductPage from './pages/ProductPage';
-import PricingPage from './pages/PricingPage';
-import HomePage from './pages/HomePage';
-import NotFoundPage from './pages/NotFoundPage';
-import AppLayout from './pages/AppLayout';
+import Homepage from './pages/Homepage/Homepage';
+import Login from './pages/Login/Login';
+import Product from './pages/Product/Product';
+import Pricing from './pages/Product/Pricing';
+import PageNotFound from './pages/PageNotFound/PageNotFound';
+import AppLayout from './pages/AppLayout/AppLayout';
 
 const App = () => {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="product" element={<ProductPage />} />
-        <Route path="pricing" element={<PricingPage />} />
+        <Route path="/" element={<Homepage />} />
+        <Route path="product" element={<Product />} />
+        <Route path="pricing" element={<Pricing />} />
+        <Route path="login" element={<Login />} />
         <Route path="app" element={<AppLayout />} />
-        <Route path="*" element={<NotFoundPage />} />
+        <Route path="*" element={<PageNotFound />} />
       </Routes>
     </BrowserRouter>
   );
