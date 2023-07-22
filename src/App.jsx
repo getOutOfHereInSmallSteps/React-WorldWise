@@ -8,6 +8,7 @@ import Pricing from './pages/Product/Pricing';
 import PageNotFound from './pages/PageNotFound/PageNotFound';
 import AppLayout from './pages/AppLayout/AppLayout';
 import CityList from './components/City/CityList';
+import CountryList from './components/Country/CountryList';
 
 const BASE_API = 'http://localhost:8000';
 
@@ -40,12 +41,18 @@ const App = () => {
         <Route path="pricing" element={<Pricing />} />
         <Route path="/login" element={<Login />} />
         <Route path="app" element={<AppLayout />}>
-          <Route index element={<CityList />} />
+          <Route
+            index
+            element={<CityList cities={cities} isLoading={isLoading} />}
+          />
           <Route
             path="cities"
             element={<CityList cities={cities} isLoading={isLoading} />}
           />
-          <Route path="countries" element={<p>Countries</p>} />
+          <Route
+            path="countries"
+            element={<CountryList cities={cities} isLoading={isLoading} />}
+          />
           <Route path="form" element={<p>Form</p>} />
         </Route>
         <Route path="*" element={<PageNotFound />} />
