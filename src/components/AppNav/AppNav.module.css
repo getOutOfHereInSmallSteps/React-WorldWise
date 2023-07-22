@@ -22,6 +22,11 @@
   border-radius: 5px;
 }
 
+.nav a:hover,
+.nav a:active {
+  cursor: pointer;
+}
+
 /* CSS Modules feature */
 .nav a:global(.active) {
   background-color: var(--color-dark--0);
