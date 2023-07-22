@@ -7,6 +7,7 @@ import Product from './pages/Product/Product';
 import Pricing from './pages/Product/Pricing';
 import PageNotFound from './pages/PageNotFound/PageNotFound';
 import AppLayout from './pages/AppLayout/AppLayout';
+import CityList from './components/City/CityList';
 
 const App = () => {
   return (
@@ -17,8 +18,8 @@ const App = () => {
         <Route path="pricing" element={<Pricing />} />
         <Route path="/login" element={<Login />} />
         <Route path="app" element={<AppLayout />}>
-          <Route index element={<p>List of cities</p>} />
-          <Route path="cities" element={<p>List of cities</p>} />
+          <Route index element={<CityList />} />
+          <Route path="cities" element={<CityList />} />
           <Route path="countries" element={<p>Countries</p>} />
           <Route path="form" element={<p>Form</p>} />
         </Route>
