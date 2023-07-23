@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { useParams } from 'react-router-dom';
 import { useCities } from '../../contexts/CitiesContext';
@@ -26,7 +26,7 @@ function City() {
 
   const { cityName, emoji, date, notes } = currentCity;
 
-  if (isLoading) return <Spinner />;
+  if (isLoading || currentCity.id !== +id) return <Spinner />;
 
   return (
     <div className={styles.city}>
