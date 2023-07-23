@@ -7,8 +7,11 @@ import Message from '../UI/Message';
 import CityItem from './CityItem';
 
 import PropTypes from 'prop-types';
+import { useCities } from '../../contexts/CitiesContext';
 
-const CityList = ({ isLoading, cities }) => {
+const CityList = () => {
+  const { isLoading, cities } = useCities();
+
   if (isLoading) return <Spinner />;
 
   if (!cities.length)
