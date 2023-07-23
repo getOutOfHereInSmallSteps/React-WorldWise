@@ -14,6 +14,8 @@ import {
 
 import { useCities } from '../../contexts/CitiesContext';
 
+import Button from '../UI/Button';
+
 import PropTypes from 'prop-types';
 
 //
@@ -22,6 +24,7 @@ import icon from 'leaflet/dist/images/marker-icon.png';
 import iconShadow from 'leaflet/dist/images/marker-shadow.png';
 
 import L from 'leaflet';
+import { useGeolocation } from '../../hooks/useGeolocation';
 
 let DefaultIcon = L.icon({
   iconUrl: icon,
@@ -53,13 +56,17 @@ ChangeCenter.propTypes = {
 };
 
 const Map = () => {
-  const { cities } = useCities();
-
+  const [mapPosition, setMapPosition] = useState([52, 12]);
   const [searchParams] = useSearchParams();
+  const { cities } = useCities();
+  const {
+    isLoading: isLoadingPosition,
+    position: geolocationPosition,
+    getPosition,
+  } = useGeolocation();
+
   const mapLat = +searchParams.get('lat');
   const mapLng = +searchParams.get('lng');
-
-  const [mapPosition, setMapPosition] = useState([52, 12]);
 
   useEffect(() => {
     if (mapLat && mapLng) {
@@ -67,8 +74,22 @@ const Map = () => {
     }
   }, [mapLat, mapLng]);
 
+  useEffect(() => {
+    // if (geolocationPosition?.lat && geolocationPosition?.lng) {
+    //   setMapPosition([geolocationPosition.lat, geolocationPosition.lng]);
+    // }
+    if (geolocationPosition) {
+      setMapPosition([geolocationPosition.lat, geolocationPosition.lng]);
+    }
+  }, [geolocationPosition]);
+
   return (
     <div className={styles.mapContainer}>
+      {!geolocationPosition && (
+        <Button type="position" onClick={getPosition}>
+          {isLoadingPosition ? 'loading' : 'Use your position'}
+        </Button>
+      )}
       <MapContainer
         center={mapPosition}
         zoom={6}
