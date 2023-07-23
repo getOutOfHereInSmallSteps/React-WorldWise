@@ -1,12 +1,23 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 
 import styles from './Map.module.css';
 
-import { MapContainer, TileLayer, useMap, Marker, Popup } from 'react-leaflet';
+import {
+  MapContainer,
+  TileLayer,
+  Marker,
+  Popup,
+  useMap,
+  useMapEvents,
+} from 'react-leaflet';
 
 import { useCities } from '../../contexts/CitiesContext';
 
+import PropTypes from 'prop-types';
+
+//
+// ICON BUG FIX
 import icon from 'leaflet/dist/images/marker-icon.png';
 import iconShadow from 'leaflet/dist/images/marker-shadow.png';
 
@@ -18,23 +29,49 @@ let DefaultIcon = L.icon({
 });
 
 L.Marker.prototype.options.icon = DefaultIcon;
+//
+
+const ChangeCenter = ({ position }) => {
+  const map = useMap();
+  map.setView(position);
+
+  return null;
+};
+
+const DetectClick = () => {
+  const navigate = useNavigate();
+
+  useMapEvents({
+    click: e => {
+      navigate(`form?lat=${e.latlng.lat}&lng=${e.latlng.lng}`);
+    },
+  });
+};
+
+ChangeCenter.propTypes = {
+  position: PropTypes.array,
+};
 
 const Map = () => {
-  const navigate = useNavigate();
   const { cities } = useCities();
 
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
+  const mapLat = +searchParams.get('lat');
+  const mapLng = +searchParams.get('lng');
 
-  const lat = searchParams.get('lat');
-  const lng = searchParams.get('lng');
+  const [mapPosition, setMapPosition] = useState([52, 12]);
 
-  const [mapPosition, setMapPosition] = useState([52, 13]);
+  useEffect(() => {
+    if (mapLat && mapLng) {
+      setMapPosition([mapLat, mapLng]);
+    }
+  }, [mapLat, mapLng]);
 
   return (
-    <div onClick={() => navigate('form')} className={styles.mapContainer}>
+    <div className={styles.mapContainer}>
       <MapContainer
         center={mapPosition}
-        zoom={13}
+        zoom={6}
         scrollWheelZoom={true}
         className={styles.map}
       >
@@ -47,6 +84,8 @@ const Map = () => {
             <Popup>{el.notes ? el.notes : `A Trip to ${el.cityName}`}</Popup>
           </Marker>
         ))}
+        <ChangeCenter position={mapPosition} />
+        <DetectClick />
       </MapContainer>
     </div>
   );
